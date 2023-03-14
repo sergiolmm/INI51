@@ -43,12 +43,7 @@ inicio2:
     dec   cl
     jnz   inicio2    
 
-
-
-
-
-    
-
+; teste..
 
 
 fim:            ; label utilizado na comparação 
