@@ -16,7 +16,16 @@
 
 .MODEL small
 .STACK 100h
+
+count = 80
+KEYBOARD STRUCT
+    maxInput BYTE count
+    inputCount BYTE ?
+    buffer BYTE count dup (?)
+KEYBOARD ; escreve uma frase via interrupção do SO
 .DATA 
+
+kdbData KEYBOARD <>
 
 dados db    10,?, 10 dup (?)
 
@@ -27,29 +36,12 @@ inicio:
     mov ds, ax 
 
     mov ah, 0Ah 
-    mov dx, offset dados
+    mov dx, offset kdbData
     int 21h 
 ; imprimir na tela os dados lidos do teclado....
 
 
-    mov bx, offset dados
-    mov di, bx
-    add bx, 1   ; ajusta ponteiro 
-    mov ch, 0
-    inc di
-    mov cl, [di]
-    add bx, cx
-    inc di
-ini1:    
-    mov al, [bx]
-    mov ah, [di]
-    cmp al, ah
-    je  fim 
-    inc di
-    dec bx
-    jmp ini1
-; ha erro mas é para teste de debug
-fim:
+
     mov al, 0
     mov ah, 4CH
     int 21h
